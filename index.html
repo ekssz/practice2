@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Всі фрагменти коду</title>
+</head>
+<body>
+    <h2>Фрагмент 1: Годинник</h2>
+    <input type="text" id="clock" size="10">
+    <br>
+    
+    <h2>Фрагмент 2: Оновлюваний час кожні 30 секунд</h2>
+    <div id="clock30">00:00:00</div>
+    <div id="message30"></div>
+    <br>
+    
+    <h2>Фрагмент 3: Ефект друкарської машинки</h2>
+    <div id="output"></div>
+    <br>
+    
+    <h2>Фрагмент 4: Гра на ставку</h2>
+    <input type="number" id="bet" placeholder="Введіть вашу ставку">
+    <button onclick="playGame()">Грати</button>
+    <div id="result"></div>
+</body>
+
+<script>
+    // Завдання 1: Годинник
+    function formatTimeValue(value) {
+        return value < 10 ? '0' + value : value;
+    }
+
+    function updateTime() {
+        const currentTime = new Date();
+        const hours = formatTimeValue(currentTime.getHours());
+        const minutes = formatTimeValue(currentTime.getMinutes());
+        const seconds = formatTimeValue(currentTime.getSeconds());
+        const timeString = hours + ':' + minutes + ':' + seconds;
+        document.getElementById('clock').value = timeString;
+    }
+    setInterval(updateTime, 1000);
+
+    // Завдання 2: Оновлюваний час кожні 30 секунд
+    function updateTime30() {
+        const currentTime = new Date();
+        const hours = formatTimeValue(currentTime.getHours());
+        const minutes = formatTimeValue(currentTime.getMinutes());
+        const seconds = formatTimeValue(currentTime.getSeconds());
+        const timeString = hours + ':' + minutes + ':' + seconds;
+        document.getElementById('clock30').textContent = timeString;
+    }
+    setInterval(updateTime30, 30000);
+
+    // Завдання 3: Ефект друкарської машинки
+    const textToType = "Це ефект друкарської машинки!";
+    const outputElement = document.getElementById('output');
+    let currentIndex = 0;
+
+    function typeText() {
+        if (currentIndex < textToType.length) {
+            outputElement.textContent += textToType[currentIndex];
+            currentIndex++;
+        } else {
+            clearInterval(typingInterval);
+        }
+    }
+
+    function startTypingEffect() {
+        currentIndex = 0;
+        outputElement.textContent = "";
+        typingInterval = setInterval(typeText, 100);
+    }
+    setTimeout(startTypingEffect, 2000);
+
+    // Завдання 4: Гра на ставку
+    function playGame() {
+        const bet = parseFloat(document.getElementById('bet').value);
+        if (isNaN(bet) || bet <= 0) {
+            alert("Будь ласка, введіть дійсну ставку.");
+            return;
+        }
+        const randomValue = Math.floor(Math.random() * 11) - 5;
+        const winnings = bet * randomValue;
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = `Випало число ${randomValue}.`;
+        setTimeout(function () {
+            if (randomValue <= 0) {
+                resultElement.textContent += ` Ви не вгадали та не виграли грошей.`;
+            } else {
+                resultElement.textContent += ` Ви виграли ${winnings} гривень!`;
+            }
+        }, 1000);
+    }
+</script>
+</html>
